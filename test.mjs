@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';
+import {updateOptions} from './example.mjs';
+const s={mode:'classic',flags:[]};
+assert.deepEqual(updateOptions(s,'mode','wildcard'),{mode:'wildcard',flags:[]});
+const v=updateOptions(s,'voice',true);
+assert.deepEqual(v.flags,['voice']);
+assert.deepEqual(updateOptions(v,'voice',true).flags,['voice']);
+assert.deepEqual(updateOptions(v,'voice',false).flags,[]);
+assert.deepEqual(s,{mode:'classic',flags:[]});
+assert.throws(()=>updateOptions(s,'mode','invalid'),TypeError);
+assert.throws(()=>updateOptions(s,'voice','false'),TypeError);
+assert.throws(()=>updateOptions(s,'unknown',true),TypeError);
+assert.throws(()=>updateOptions({mode:'classic',flags:['unknown']},'voice',true),TypeError);
+console.log('9 assertions passed');
